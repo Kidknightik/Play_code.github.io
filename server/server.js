@@ -1,36 +1,58 @@
-import express from "express";
-import cors from "cors";
+import express from 'express';
+import cors from 'cors';
+import multer from 'multer';
+import { v4 as uuid } from 'uuid';
+import fs from 'fs';
 
 const app = express();
 app.use(cors());
-app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.status(200).send("API is running");
+const PRODUCTS_FILE = './products.json';
+const UPLOADS_DIR = './uploads';
+
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR);
+}
+
+if (!fs.existsSync(PRODUCTS_FILE)) {
+  fs.writeFileSync(PRODUCTS_FILE, '[]');
+}
+
+const storage = multer.diskStorage({
+  destination: UPLOADS_DIR,
+  filename: (_, file, cb) => {
+    cb(null, uuid() + '.' + file.mimetype.split('/')[1]);
+  }
 });
 
-const products = [
-  {
-    id: 1,
-    title: "iPhone 15",
-    price: 1200,
-    category: "phones",
-    image: "https://via.placeholder.com/300x200?text=iPhone+15"
-  },
-  {
-    id: 2,
-    title: "Samsung Galaxy S24",
-    price: 1100,
-    category: "phones",
-    image: "https://via.placeholder.com/300x200?text=Galaxy+S24"
-  }
-];
+const upload = multer({ storage });
 
-app.get("/products", (req, res) => {
+// получить товары
+app.get('/products', (_, res) => {
+  const products = JSON.parse(fs.readFileSync(PRODUCTS_FILE));
   res.json(products);
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// добавить товар + картинку
+app.post('/products', upload.single('image'), (req, res) => {
+  const products = JSON.parse(fs.readFileSync(PRODUCTS_FILE));
+
+  const product = {
+    id: uuid(),
+    title: req.body.title,
+    price: req.body.price,
+    image: `/images/${req.file.filename}`
+  };
+
+  products.push(product);
+  fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(products, null, 2));
+
+  res.json(product);
+});
+
+// отдача картинок
+app.use('/images', express.static(UPLOADS_DIR));
+
+app.listen(3000, () => {
+  console.log('API started');
 });

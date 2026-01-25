@@ -1,21 +1,51 @@
-const API_URL = "https://play-code-api.onrender.com/products";
+const API = 'https://play-code-api.onrender.com';
 
-fetch(API_URL)
-  .then(res => res.json())
-  .then(products => {
-    const container = document.getElementById("products");
+const productsDiv = document.getElementById('products');
+const addBtn = document.getElementById('addBtn');
 
-    products.forEach(product => {
-      const card = document.createElement("div");
-      card.className = "product";
+async function loadProducts() {
+  const res = await fetch(`${API}/products`);
+  const products = await res.json();
 
-      card.innerHTML = `
-        <img src="${product.image}" alt="${product.title}">
-        <h3>${product.title}</h3>
-        <p>Цена: ${product.price} $</p>
-      `;
+  productsDiv.innerHTML = '';
 
-      container.appendChild(card);
-    });
-  })
-  .catch(err => console.error(err));
+  products.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'product';
+
+    div.innerHTML = `
+      <img src="${API}${p.image}">
+      <div class="product-info">
+        <h3>${p.title}</h3>
+        <p>${p.price} ₽</p>
+      </div>
+    `;
+
+    productsDiv.appendChild(div);
+  });
+}
+
+addBtn.onclick = async () => {
+  const title = document.getElementById('title').value;
+  const price = document.getElementById('price').value;
+  const image = document.getElementById('image').files[0];
+
+  if (!title || !price || !image) {
+    alert('Заполни все поля');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('price', price);
+  formData.append('image', image);
+
+  await fetch(`${API}/products`, {
+    method: 'POST',
+    body: formData
+  });
+
+  loadProducts();
+};
+
+loadProducts();

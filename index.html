@@ -1,15 +1,34 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Marketplace</title>
+  <meta charset="UTF-8" />
+  <title>PlayCode Market</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <h1>Marketplace</h1>
-  <div id="products" class="products"></div>
+<header class="header">
+  <h1>🎮 PlayCode Market</h1>
+</header>
 
-  <script src="script.js"></script>
+<main class="container">
+
+  <section class="form">
+    <h2>Добавить товар</h2>
+
+    <input type="text" id="title" placeholder="Название товара">
+    <input type="number" id="price" placeholder="Цена ₽">
+    <input type="file" id="image" accept="image/*">
+    <button id="addBtn">Добавить</button>
+  </section>
+
+  <section>
+    <h2 class="section-title">Товары</h2>
+    <div id="products" class="products"></div>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
 </body>
 </html>
