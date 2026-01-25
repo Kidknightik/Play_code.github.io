@@ -3,23 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <title>PlayCode Market</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <header class="header">
-  <h1>🎮 PlayCode Market</h1>
+  <h1>PlayCode Market</h1>
+  <p class="subtitle">Игровой донат и подписки</p>
 </header>
 
 <main class="container">
 
-  <section class="form">
-    <h2>Добавить товар</h2>
+  <section class="hero">
+    <h2>Донат в игры и цифровые сервисы</h2>
+    <p>
+      Витрина внутриигровых покупок, подписок и цифровых услуг.
+      Проект создан исключительно в образовательных целях.
+    </p>
+  </section>
 
-    <input type="text" id="title" placeholder="Название товара">
-    <input type="number" id="price" placeholder="Цена ₽">
-    <input type="file" id="image" accept="image/*">
-    <button id="addBtn">Добавить</button>
+  <section class="filters">
+    <select id="categoryFilter">
+      <option value="all">Все категории</option>
+      <option value="Steam">Steam</option>
+      <option value="Discord">Discord</option>
+      <option value="Games">Игры</option>
+      <option value="Subscriptions">Подписки</option>
+    </select>
   </section>
 
   <section>
@@ -28,6 +38,13 @@
   </section>
 
 </main>
+
+<footer class="footer">
+  <p>
+    Все сделанно в образовательных целях, сайт не для настоящей продажи
+    товаров/покупки, все что тут есть все не реальное
+  </p>
+</footer>
 
 <script src="script.js"></script>
 </body>
