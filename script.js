@@ -4,56 +4,48 @@ const modal = document.getElementById('modal');
 const openModal = document.getElementById('openModal');
 const nextBtn = document.getElementById('nextBtn');
 const prevBtn = document.getElementById('prevBtn');
+const progressBar = document.getElementById('progressBar');
 
 const stages = document.querySelectorAll('.stage');
-const steps = document.querySelectorAll('.step');
+let step = 0;
 
-let currentStage = 0;
-
-openModal.onclick = () => {
-  modal.classList.remove('hidden');
-};
+openModal.onclick = () => modal.classList.remove('hidden');
 
 prevBtn.onclick = () => {
-  if (currentStage > 0) {
-    currentStage--;
-    updateStages();
-  }
+  if (step > 0) step--;
+  update();
 };
 
 nextBtn.onclick = async () => {
-  if (currentStage < stages.length - 1) {
-    currentStage++;
-    updateStages();
+  if (step < stages.length - 1) {
+    step++;
+    update();
   } else {
-    await submitProduct();
+    await submit();
     modal.classList.add('hidden');
-    currentStage = 0;
-    updateStages();
+    step = 0;
+    update();
     loadProducts();
   }
 };
 
-function updateStages() {
-  stages.forEach((s, i) => s.classList.toggle('active', i === currentStage));
-  steps.forEach((s, i) => s.classList.toggle('active', i <= currentStage));
+function update() {
+  stages.forEach((s, i) => s.classList.toggle('active', i === step));
+  progressBar.style.width = `${(step + 1) * 25}%`;
 }
 
-async function submitProduct() {
-  const formData = new FormData();
-  formData.append('category', document.getElementById('category').value);
-  formData.append('title', document.getElementById('title').value);
-  formData.append('description', document.getElementById('description').value);
-  formData.append('price', document.getElementById('price').value);
-  formData.append('image', document.getElementById('image').files[0]);
+async function submit() {
+  const fd = new FormData();
+  fd.append('category', category.value);
+  fd.append('title', title.value);
+  fd.append('description', description.value);
+  fd.append('price', price.value);
+  fd.append('image', image.files[0]);
 
-  await fetch(`${API}/products`, {
-    method: 'POST',
-    body: formData
-  });
+  await fetch(`${API}/products`, { method: 'POST', body: fd });
 }
 
-/* ТОВАРЫ */
+/* PRODUCTS */
 
 const productsDiv = document.getElementById('products');
 const categoryFilter = document.getElementById('categoryFilter');
@@ -62,28 +54,28 @@ let allProducts = [];
 async function loadProducts() {
   const res = await fetch(`${API}/products`);
   allProducts = await res.json();
-  renderProducts(allProducts);
+  render(allProducts);
 }
 
-function renderProducts(products) {
+function render(list) {
   productsDiv.innerHTML = '';
-  products.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'product';
-    div.innerHTML = `
-      <div class="badge">${p.category}</div>
+  list.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'product';
+    d.innerHTML = `
+      <span class="badge">${p.category}</span>
       <h3>${p.title}</h3>
       <p>${p.description}</p>
       <div class="price">${p.price} ₽</div>
-      <button>Купить</button>
+      <button class="primary-btn">Купить</button>
     `;
-    productsDiv.appendChild(div);
+    productsDiv.appendChild(d);
   });
 }
 
 categoryFilter.onchange = () => {
   const v = categoryFilter.value;
-  renderProducts(v === 'all' ? allProducts : allProducts.filter(p => p.category === v));
+  render(v === 'all' ? allProducts : allProducts.filter(p => p.category === v));
 };
 
 loadProducts();

@@ -8,20 +8,15 @@
 <body>
 
 <header class="header">
-  <h1>PlayCode Market</h1>
-  <p class="subtitle">Игровой донат и подписки</p>
+  <div class="header-inner">
+    <h1>PlayCode</h1>
+    <span>Игровой донат</span>
+  </div>
 </header>
 
 <main class="container">
 
-  <section class="hero">
-    <h2>Донат в игры и цифровые сервисы</h2>
-    <p>
-      Подписки, внутриигровая валюта и цифровые услуги.
-    </p>
-  </section>
-
-  <div class="top-bar">
+  <div class="toolbar">
     <select id="categoryFilter">
       <option value="all">Все категории</option>
       <option value="Steam">Steam</option>
@@ -30,29 +25,25 @@
       <option value="Subscriptions">Подписки</option>
     </select>
 
-    <button id="openModal" class="add-btn">➕ Добавить товар</button>
+    <button id="openModal" class="primary-btn">
+      + Добавить товар
+    </button>
   </div>
 
-  <section>
-    <div id="products" class="products"></div>
-  </section>
+  <div id="products" class="products"></div>
 
 </main>
 
-<!-- МОДАЛКА -->
+<!-- MODAL -->
 <div id="modal" class="modal hidden">
-  <div class="modal-content">
+  <div class="modal-card">
 
-    <div class="steps">
-      <span class="step active">1</span>
-      <span class="step">2</span>
-      <span class="step">3</span>
-      <span class="step">4</span>
+    <div class="progress">
+      <div id="progressBar"></div>
     </div>
 
-    <!-- ЭТАП 1 -->
     <div class="stage active">
-      <h3>Выбор категории</h3>
+      <h3>Категория</h3>
       <select id="category">
         <option value="Steam">Steam</option>
         <option value="Discord">Discord</option>
@@ -61,29 +52,29 @@
       </select>
     </div>
 
-    <!-- ЭТАП 2 -->
     <div class="stage">
       <h3>Название и описание</h3>
       <input id="title" placeholder="Название товара" />
-      <textarea id="description" placeholder="Описание"></textarea>
+      <textarea id="description" placeholder="Краткое описание"></textarea>
     </div>
 
-    <!-- ЭТАП 3 -->
     <div class="stage">
-      <h3>Фотокарточка</h3>
-      <input type="file" id="image" accept="image/*" />
-      <small>Изображение будет загружено на сервер</small>
+      <h3>Изображение</h3>
+      <label class="upload">
+        <input type="file" id="image" accept="image/*" hidden />
+        Выбрать изображение
+      </label>
+      <small>Файл будет загружен на сервер</small>
     </div>
 
-    <!-- ЭТАП 4 -->
     <div class="stage">
       <h3>Цена</h3>
-      <input id="price" type="number" placeholder="Цена ₽" />
+      <input id="price" type="number" placeholder="₽" />
     </div>
 
-    <div class="modal-actions">
-      <button id="prevBtn">Назад</button>
-      <button id="nextBtn">Далее</button>
+    <div class="actions">
+      <button id="prevBtn" class="ghost-btn">Назад</button>
+      <button id="nextBtn" class="primary-btn">Далее</button>
     </div>
 
   </div>
