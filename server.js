@@ -34,14 +34,15 @@ app.get('/products', (_, res) => {
 });
 
 // добавить товар + картинку
-app.post('/products', upload.single('image'), (req, res) => {
+app.post('/products', upload.none(), (req, res) => {
   const products = JSON.parse(fs.readFileSync(PRODUCTS_FILE));
 
   const product = {
     id: uuid(),
     title: req.body.title,
+    description: req.body.description,
     price: req.body.price,
-    image: `/images/${req.file.filename}`
+    category: req.body.category
   };
 
   products.push(product);
@@ -49,6 +50,7 @@ app.post('/products', upload.single('image'), (req, res) => {
 
   res.json(product);
 });
+
 
 // отдача картинок
 app.use('/images', express.static(UPLOADS_DIR));
