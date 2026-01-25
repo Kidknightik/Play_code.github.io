@@ -17,12 +17,11 @@
   <section class="hero">
     <h2>Донат в игры и цифровые сервисы</h2>
     <p>
-      Витрина внутриигровых покупок, подписок и цифровых услуг.
-      Проект создан исключительно в образовательных целях.
+      Подписки, внутриигровая валюта и цифровые услуги.
     </p>
   </section>
 
-  <section class="filters">
+  <div class="top-bar">
     <select id="categoryFilter">
       <option value="all">Все категории</option>
       <option value="Steam">Steam</option>
@@ -30,14 +29,65 @@
       <option value="Games">Игры</option>
       <option value="Subscriptions">Подписки</option>
     </select>
-  </section>
+
+    <button id="openModal" class="add-btn">➕ Добавить товар</button>
+  </div>
 
   <section>
-    <h2 class="section-title">Товары</h2>
     <div id="products" class="products"></div>
   </section>
 
 </main>
+
+<!-- МОДАЛКА -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+
+    <div class="steps">
+      <span class="step active">1</span>
+      <span class="step">2</span>
+      <span class="step">3</span>
+      <span class="step">4</span>
+    </div>
+
+    <!-- ЭТАП 1 -->
+    <div class="stage active">
+      <h3>Выбор категории</h3>
+      <select id="category">
+        <option value="Steam">Steam</option>
+        <option value="Discord">Discord</option>
+        <option value="Games">Игры</option>
+        <option value="Subscriptions">Подписки</option>
+      </select>
+    </div>
+
+    <!-- ЭТАП 2 -->
+    <div class="stage">
+      <h3>Название и описание</h3>
+      <input id="title" placeholder="Название товара" />
+      <textarea id="description" placeholder="Описание"></textarea>
+    </div>
+
+    <!-- ЭТАП 3 -->
+    <div class="stage">
+      <h3>Фотокарточка</h3>
+      <input type="file" id="image" accept="image/*" />
+      <small>Изображение будет загружено на сервер</small>
+    </div>
+
+    <!-- ЭТАП 4 -->
+    <div class="stage">
+      <h3>Цена</h3>
+      <input id="price" type="number" placeholder="Цена ₽" />
+    </div>
+
+    <div class="modal-actions">
+      <button id="prevBtn">Назад</button>
+      <button id="nextBtn">Далее</button>
+    </div>
+
+  </div>
+</div>
 
 <footer class="footer">
   <p>

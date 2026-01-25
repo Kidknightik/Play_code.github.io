@@ -1,128 +1,89 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Inter, system-ui, sans-serif;
-  background: #0b0c10;
-  color: #eaeaf0;
-}
-
-.header {
-  padding: 40px 20px 20px;
-  text-align: center;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 34px;
-}
-
-.subtitle {
-  color: #8b8b9f;
-  margin-top: 8px;
-}
-
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
-}
-
-.hero {
-  background: #14141c;
-  border-radius: 16px;
-  padding: 30px;
-  margin-bottom: 30px;
-}
-
-.hero p {
-  color: #b5b5c8;
-  line-height: 1.6;
-}
-
-.filters {
-  margin-bottom: 30px;
-}
-
-select {
-  background: #14141c;
-  color: #fff;
-  border: 1px solid #2a2a3d;
-  padding: 10px 12px;
-  border-radius: 10px;
-}
-
-.section-title {
-  margin-bottom: 20px;
-}
-
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
-}
-
-.product {
-  background: #14141c;
-  border-radius: 16px;
-  padding: 20px;
+.top-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
-.badge {
-  align-self: flex-start;
-  background: #2a2a3d;
-  color: #cfcfff;
-  font-size: 11px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-}
-
-.product h3 {
-  margin: 0 0 8px;
-  font-size: 17px;
-}
-
-.product p {
-  margin: 0 0 16px;
-  color: #9a9ab0;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.price {
-  font-size: 20px;
-  font-weight: 600;
-  color: #6a5cff;
-  margin-top: auto;
-  margin-bottom: 12px;
-}
-
-.product button {
+.add-btn {
   background: linear-gradient(135deg, #6a5cff, #8f7bff);
   border: none;
   border-radius: 10px;
-  padding: 12px;
+  padding: 10px 14px;
   color: white;
   cursor: pointer;
 }
 
-.product button:hover {
-  opacity: 0.9;
+/* МОДАЛКА */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.footer {
-  margin-top: 60px;
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #14141c;
+  border-radius: 16px;
+  width: 400px;
   padding: 20px;
-  text-align: center;
 }
 
-.footer p {
-  font-size: 12px;
-  color: #6f6f85;
-  line-height: 1.4;
+.steps {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.step {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2a2a3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.step.active {
+  background: #6a5cff;
+}
+
+.stage {
+  display: none;
+}
+
+.stage.active {
+  display: block;
+}
+
+.stage input,
+.stage textarea,
+.stage select {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #0e0e11;
+  border: 1px solid #2a2a3d;
+  border-radius: 8px;
+  color: white;
+}
+
+textarea {
+  resize: none;
+  height: 80px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
