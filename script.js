@@ -34,14 +34,12 @@ function update() {
   progressBar.style.width = `${(step + 1) * 25}%`;
 }
 
-// Функция отправки товара на сервер
 async function submit() {
   const title = document.getElementById('title').value.trim();
   const description = document.getElementById('description').value.trim();
   const category = document.getElementById('category').value;
   const price = document.getElementById('price').value;
 
-  // Валидация обязательных полей
   if (!title || !description || !category || !price || isNaN(price) || price <= 0) {
     alert('Пожалуйста, заполните все поля корректно: название, описание, категория и цена (число > 0).');
     return;
@@ -50,7 +48,6 @@ async function submit() {
   const imageInput = document.getElementById('image');
   const imageFile = imageInput.files[0];
 
-  // Создаем FormData для отправки файла и данных
   const formData = new FormData();
   formData.append('title', title);
   formData.append('description', description);
@@ -58,13 +55,13 @@ async function submit() {
   formData.append('price', price);
 
   if (imageFile) {
-    formData.append('image', imageFile); // Отправляем файл
+    formData.append('image', imageFile);
   }
 
   try {
     const response = await fetch(`${API}/products`, {
       method: 'POST',
-      body: formData, // FormData автоматически устанавливает Content-Type: multipart/form-data
+      body: formData,
     });
 
     if (!response.ok) {
@@ -77,8 +74,8 @@ async function submit() {
 
     // Сброс формы
     document.querySelector('#category').form.reset();
-    document.getElementById('image').value = ''; // Очистить input file
-    document.querySelector('.product-image').src = ''; // Очистить превью (если бы было)
+    document.getElementById('image').value = '';
+    document.querySelector('.product-image').src = '';
 
     alert('Товар успешно добавлен!');
   } catch (error) {
@@ -87,21 +84,19 @@ async function submit() {
   }
 }
 
-// Добавление превью изображения в модалке
 document.getElementById('image').onchange = function(e) {
   const file = e.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
   reader.onload = function(event) {
-    // Создаем превью изображения (если его еще нет — добавляем)
     let preview = document.querySelector('.image-preview');
     if (!preview) {
       preview = document.createElement('div');
       preview.className = 'image-preview';
       preview.style.marginTop = '12px';
       preview.style.textAlign = 'center';
-      const stage = document.querySelector('.stage:nth-child(3)'); // Изображение — третья стадия
+      const stage = document.querySelector('.stage:nth-child(3)');
       stage.appendChild(preview);
     }
     preview.innerHTML = `<img src="${event.target.result}" style="max-width: 100%; max-height: 150px; border-radius: 10px;" />`;
@@ -123,11 +118,57 @@ productsDiv.addEventListener('click', (e) => {
 async function loadProducts() {
   productsDiv.innerHTML = '<div class="loading">Загрузка...</div>';
   try {
-    // идут работы над api сервера
-    //const res = await fetch(`${API}/products`);
-    //if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    res = '[{"id":1,"title":"Пополнение steam на 1000 рублей","price":1099,"category":"Steam","image":"https://via.placeholder.com/300x200?text=iPhone+15"},{"id":2,"title":"Пополнение steam на 500 рублей","price":549,"category":"Steam","image":"https://via.placeholder.com/300x200?text=Galaxy+S24"},{"id":3,"title":"Discord Nitro на 1 месяц","price":399,"category":"Discord"},{"id":4,"title":"Discord Nitro на 1 год","price":3299,"category":"Discord"},{"id":5,"title":"Youtube Premium на 1 год","price":1599,"category":"Youtube"}]'
-    allProducts = await res.json();
+    const mockProducts = [
+      {
+        id: 1,
+        title: "Пополнение steam на 1000 рублей",
+        description: "Пополнение кошелька Steam на 1000 рублей",
+        price: 1099,
+        category: "Steam",
+        image: "https://via.placeholder.com/300x200?text=Steam+1000"
+      },
+      {
+        id: 2,
+        title: "Пополнение steam на 500 рублей",
+        description: "Пополнение кошелька Steam на 500 рублей",
+        price: 549,
+        category: "Steam",
+        image: "https://via.placeholder.com/300x200?text=Steam+500"
+      },
+      {
+        id: 3,
+        title: "Discord Nitro на 1 месяц",
+        description: "Подписка Discord Nitro на 1 месяц",
+        price: 399,
+        category: "Discord",
+        image: "https://via.placeholder.com/300x200?text=Discord+Nitro"
+      },
+      {
+        id: 4,
+        title: "Discord Nitro на 1 год",
+        description: "Подписка Discord Nitro на 1 год",
+        price: 3299,
+        category: "Discord",
+        image: "https://via.placeholder.com/300x200?text=Discord+Nitro+Year"
+      },
+      {
+        id: 5,
+        title: "Youtube Premium на 1 год",
+        description: "Подписка Youtube Premium на 1 год",
+        price: 1599,
+        category: "Youtube",
+        image: "https://via.placeholder.com/300x200?text=Youtube+Premium"
+      }
+    ];
+    
+    // Используйте этот код, когда API будет готово:
+    // const res = await fetch(`${API}/products`);
+    // if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+    // allProducts = await res.json();
+    
+    // Пока используем временные данные
+    allProducts = mockProducts;
+    
     render(allProducts);
   } catch (error) {
     console.error('Ошибка загрузки товаров:', error);
@@ -149,7 +190,7 @@ function render(list) {
       <img src="${p.image || 'default-image.jpg'}" alt="${p.title}" class="product-image">
       <span class="badge">${p.category}</span>
       <h3>${p.title}</h3>
-      <p>${p.description}</p>
+      <p>${p.description || ''}</p>
       <div class="price">${p.price} ₽</div>
       <button class="primary-btn buy-btn" data-id="${p.id}">Купить</button>
     `;
@@ -162,5 +203,4 @@ categoryFilter.onchange = () => {
   render(v === 'all' ? allProducts : allProducts.filter(p => p.category === v));
 };
 
-// Загружаем товары при старте
 loadProducts();
