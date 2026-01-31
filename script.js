@@ -35,14 +35,27 @@ function update() {
 }
 
 async function submit() {
-  const fd = new FormData();
-  fd.append('category', category.value);
-  fd.append('title', title.value);
-  fd.append('description', description.value);
-  fd.append('price', price.value);
-  fd.append('image', image.files[0]);
+  // Validate required fields
+  if (!title.value || !price.value || !category.value) {
+    alert('Please fill required fields');
+    return;
+  }
+  
+  // Clear form after submit
+  const form = document.querySelector('#category').form;
+  form.reset();
+}
 
-  await fetch(`${API}/products`, { method: 'POST', body: fd });
+// Add image preview in modal
+image.onchange = function(e) {
+  if (e.target.files[0]) {
+    // Show image preview
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      // Create/show preview
+    }
+    reader.readAsDataURL(e.target.files[0]);
+  }
 }
 
 /* PRODUCTS */
@@ -51,10 +64,25 @@ const productsDiv = document.getElementById('products');
 const categoryFilter = document.getElementById('categoryFilter');
 let allProducts = [];
 
+// Add event delegation for buy buttons
+productsDiv.addEventListener('click', (e) => {
+  if (e.target.classList.contains('buy-btn')) {
+    const productId = e.target.dataset.id;
+    // Handle purchase logic
+    alert(`Buying product ${productId}`);
+  }
+});
+
+// Add loading spinner during API calls
 async function loadProducts() {
-  const res = await fetch(`${API}/products`);
-  allProducts = await res.json();
-  render(allProducts);
+  productsDiv.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    const res = await fetch(`${API}/products`);
+    allProducts = await res.json();
+    render(allProducts);
+  } catch (error) {
+    productsDiv.innerHTML = '<div class="error">Failed to load products</div>';
+  }
 }
 
 function render(list) {
@@ -63,12 +91,14 @@ function render(list) {
     const d = document.createElement('div');
     d.className = 'product';
     d.innerHTML = `
+      <img src="${p.image || 'default-image.jpg'}" alt="${p.title}" class="product-image">
       <span class="badge">${p.category}</span>
       <h3>${p.title}</h3>
       <p>${p.description}</p>
       <div class="price">${p.price} ₽</div>
-      <button class="primary-btn">Купить</button>
+      <button class="primary-btn buy-btn" data-id="${p.id}">Купить</button>
     `;
+    
     productsDiv.appendChild(d);
   });
 }
