@@ -72,7 +72,6 @@ async function submit() {
     const result = await response.json();
     console.log('Товар добавлен:', result);
 
-    // Сброс формы
     document.querySelector('#category').form.reset();
     document.getElementById('image').value = '';
     document.querySelector('.product-image').src = '';
@@ -166,8 +165,7 @@ async function loadProducts() {
     // if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
     // allProducts = await res.json();
     
-    // Пока используем временные данные
-    allProducts = mockProducts;
+    // Технические шоколадки с сервером :)
     
     render(allProducts);
   } catch (error) {

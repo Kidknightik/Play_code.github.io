@@ -5,7 +5,6 @@ body {
   color: #eaeaf0;
 }
 
-/* HEADER */
 .header {
   border-bottom: 1px solid #1f1f2b;
 }
@@ -23,21 +22,18 @@ body {
   color: #8b8b9f;
 }
 
-/* LAYOUT */
 .container {
   max-width: 1100px;
   margin: auto;
   padding: 30px 20px;
 }
 
-/* TOOLBAR */
 .toolbar {
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
 }
 
-/* BUTTONS */
 .primary-btn {
   background: linear-gradient(135deg, #6a5cff, #8f7bff);
   border: none;
@@ -55,7 +51,6 @@ body {
   border-radius: 12px;
 }
 
-/* PRODUCTS */
 .products {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -106,7 +101,6 @@ body {
   margin: 16px 0;
 }
 
-/* MODAL */
 .modal {
   position: fixed;
   inset: 0;
@@ -176,7 +170,6 @@ body {
   margin-top: 24px;
 }
 
-/* FOOTER */
 .footer {
   margin: 60px 0 20px;
   text-align: center;
