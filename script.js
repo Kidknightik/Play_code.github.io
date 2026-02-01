@@ -41,7 +41,7 @@ async function submit() {
   const price = document.getElementById('price').value;
 
   if (!title || !description || !category || !price || isNaN(price) || price <= 0) {
-    alert('Пожалуйста, заполните все поля корректно: название, описание, категория и цена (число > 0).');
+    alert('Заполните все поля корректно');
     return;
   }
 
@@ -59,28 +59,27 @@ async function submit() {
   }
 
   try {
-    const response = await fetch(`${API}/products`, {
+    await fetch(`${API}/products`, {
       method: 'POST',
       body: formData,
     });
+  } catch (e) {}
 
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`Ошибка сервера: ${response.status} ${error}`);
-    }
+  allProducts.unshift({
+    id: Date.now(),
+                      title,
+                      description,
+                      category,
+                      price,
+                      image: imageFile ? URL.createObjectURL(imageFile) : null
+  });
 
-    const result = await response.json();
-    console.log('Товар добавлен:', result);
+  document.getElementById('title').value = '';
+  document.getElementById('description').value = '';
+  document.getElementById('price').value = '';
+  document.getElementById('image').value = '';
 
-    document.querySelector('#category').form.reset();
-    document.getElementById('image').value = '';
-    document.querySelector('.product-image').src = '';
-
-    alert('Товар успешно добавлен!');
-  } catch (error) {
-    console.error('Ошибка при добавлении товара:', error);
-    alert('Ошибка при добавлении товара: ' + error.message);
-  }
+  render(allProducts);
 }
 
 document.getElementById('image').onchange = function(e) {
@@ -98,7 +97,7 @@ document.getElementById('image').onchange = function(e) {
       const stage = document.querySelector('.stage:nth-child(3)');
       stage.appendChild(preview);
     }
-    preview.innerHTML = `<img src="${event.target.result}" style="max-width: 100%; max-height: 150px; border-radius: 10px;" />`;
+    preview.innerHTML = `<img src="${event.target.result}" style="max-width:100%;max-height:150px;border-radius:10px;">`;
   };
   reader.readAsDataURL(file);
 };
@@ -109,75 +108,65 @@ let allProducts = [];
 
 productsDiv.addEventListener('click', (e) => {
   if (e.target.classList.contains('buy-btn')) {
-    const productId = e.target.dataset.id;
-    alert(`Покупка товара ${productId} (в образовательных целях!)`);
+    alert('Покупка в образовательных целях');
   }
 });
 
 async function loadProducts() {
   productsDiv.innerHTML = '<div class="loading">Загрузка...</div>';
-  try {
-    const mockProducts = [
-      {
-        id: 1,
-        title: "Пополнение steam на 1000 рублей",
-        description: "Пополнение кошелька Steam на 1000 рублей",
-        price: 1099,
-        category: "Steam",
-        image: "https://via.placeholder.com/300x200?text=Steam+1000"
-      },
-      {
-        id: 2,
-        title: "Пополнение steam на 500 рублей",
-        description: "Пополнение кошелька Steam на 500 рублей",
-        price: 549,
-        category: "Steam",
-        image: "https://via.placeholder.com/300x200?text=Steam+500"
-      },
-      {
-        id: 3,
-        title: "Discord Nitro на 1 месяц",
-        description: "Подписка Discord Nitro на 1 месяц",
-        price: 399,
-        category: "Discord",
-        image: "https://via.placeholder.com/300x200?text=Discord+Nitro"
-      },
-      {
-        id: 4,
-        title: "Discord Nitro на 1 год",
-        description: "Подписка Discord Nitro на 1 год",
-        price: 3299,
-        category: "Discord",
-        image: "https://via.placeholder.com/300x200?text=Discord+Nitro+Year"
-      },
-      {
-        id: 5,
-        title: "Youtube Premium на 1 год",
-        description: "Подписка Youtube Premium на 1 год",
-        price: 1599,
-        category: "Youtube",
-        image: "https://via.placeholder.com/300x200?text=Youtube+Premium"
-      }
-    ];
-    
-    // Используйте этот код, когда API будет готово:
-    // const res = await fetch(`${API}/products`);
-    // if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    // allProducts = await res.json();
-    
-    // Технические шоколадки с сервером :)
-    
-    render(allProducts);
-  } catch (error) {
-    console.error('Ошибка загрузки товаров:', error);
-    productsDiv.innerHTML = '<div class="error">Не удалось загрузить товары. Попробуйте позже.</div>';
-  }
+
+  const mockProducts = [
+    {
+      id: 1,
+      title: "Пополнение steam на 1000 рублей",
+      description: "Пополнение кошелька Steam на 1000 рублей",
+      price: 1099,
+      category: "Steam",
+      image: "https://via.placeholder.com/300x200?text=Steam+1000"
+    },
+    {
+      id: 2,
+      title: "Пополнение steam на 500 рублей",
+      description: "Пополнение кошелька Steam на 500 рублей",
+      price: 549,
+      category: "Steam",
+      image: "https://via.placeholder.com/300x200?text=Steam+500"
+    },
+    {
+      id: 3,
+      title: "Discord Nitro на 1 месяц",
+      description: "Подписка Discord Nitro на 1 месяц",
+      price: 399,
+      category: "Discord",
+      image: "https://via.placeholder.com/300x200?text=Discord+Nitro"
+    },
+    {
+      id: 4,
+      title: "Discord Nitro на 1 год",
+      description: "Подписка Discord Nitro на 1 год",
+      price: 3299,
+      category: "Discord",
+      image: "https://via.placeholder.com/300x200?text=Discord+Year"
+    },
+    {
+      id: 5,
+      title: "Youtube Premium на 1 год",
+      description: "Подписка Youtube Premium на 1 год",
+      price: 1599,
+      category: "Youtube",
+      image: "https://via.placeholder.com/300x200?text=Youtube+Premium"
+    }
+  ];
+
+  allProducts = mockProducts;
+  render(allProducts);
 }
 
 function render(list) {
   productsDiv.innerHTML = '';
+
   if (list.length === 0) {
-    productsDiv.innerHTML = '<div class="empty">Нет товаров в этой категории.</div>';
+    productsDiv.innerHTML = '<div class="empty">Нет товаров</div>';
     return;
   }
 
@@ -185,12 +174,12 @@ function render(list) {
     const d = document.createElement('div');
     d.className = 'product';
     d.innerHTML = `
-      <img src="${p.image || 'default-image.jpg'}" alt="${p.title}" class="product-image">
-      <span class="badge">${p.category}</span>
-      <h3>${p.title}</h3>
-      <p>${p.description || ''}</p>
-      <div class="price">${p.price} ₽</div>
-      <button class="primary-btn buy-btn" data-id="${p.id}">Купить</button>
+    <img src="${p.image || 'https://via.placeholder.com/300x200'}" class="product-image">
+    <span class="badge">${p.category}</span>
+    <h3>${p.title}</h3>
+    <p>${p.description}</p>
+    <div class="price">${p.price} ₽</div>
+    <button class="primary-btn buy-btn">Купить</button>
     `;
     productsDiv.appendChild(d);
   });

@@ -18,10 +18,6 @@ body {
   align-items: center;
 }
 
-.header span {
-  color: #8b8b9f;
-}
-
 .container {
   max-width: 1100px;
   margin: auto;
@@ -41,14 +37,12 @@ body {
   padding: 12px 16px;
   color: white;
   cursor: pointer;
+  transition: 0.2s;
 }
 
-.ghost-btn {
-  background: none;
-  border: 1px solid #2a2a3d;
-  color: #aaa;
-  padding: 12px 16px;
-  border-radius: 12px;
+.primary-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
 
 .products {
@@ -63,6 +57,11 @@ body {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  transition: 0.2s;
+}
+
+.product:hover {
+  transform: translateY(-4px);
 }
 
 .product-image {
@@ -74,30 +73,17 @@ body {
 }
 
 .badge {
-  align-self: flex-start;
   background: #2a2a3d;
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
   margin-bottom: 10px;
-}
-
-.product h3 {
-  margin: 0 0 8px;
-  font-size: 18px;
-}
-
-.product p {
-  color: #9a9ab0;
-  font-size: 14px;
-  line-height: 1.4;
-  margin-bottom: auto;
+  width: fit-content;
 }
 
 .price {
   font-size: 22px;
   color: #6a5cff;
-  font-weight: 600;
   margin: 16px 0;
 }
 
@@ -119,60 +105,4 @@ body {
   background: #14141c;
   border-radius: 20px;
   padding: 24px;
-}
-
-.progress {
-  height: 6px;
-  background: #2a2a3d;
-  border-radius: 999px;
-  margin-bottom: 20px;
-}
-
-#progressBar {
-  height: 100%;
-  width: 25%;
-  background: #6a5cff;
-  border-radius: 999px;
-}
-
-.stage {
-  display: none;
-}
-
-.stage.active {
-  display: block;
-}
-
-.stage input,
-.stage textarea,
-.stage select {
-  width: 100%;
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #2a2a3d;
-  background: #0e0e11;
-  color: white;
-}
-
-.upload {
-  display: inline-block;
-  padding: 12px;
-  border: 1px dashed #6a5cff;
-  border-radius: 12px;
-  cursor: pointer;
-  margin-top: 12px;
-}
-
-.actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 24px;
-}
-
-.footer {
-  margin: 60px 0 20px;
-  text-align: center;
-  font-size: 12px;
-  color: #6f6f85;
 }
